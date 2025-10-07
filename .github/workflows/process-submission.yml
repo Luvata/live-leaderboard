@@ -13,7 +13,7 @@ permissions:
 jobs:
   process-submission:
     if: |
-      contains(github.event.issue.labels.*.name, 'submission') &&
+      (contains(github.event.issue.labels.*.name, 'submission') || startsWith(github.event.issue.title, '[Submission]')) &&
       (github.event.action == 'opened' || github.event.action == 'edited')
     runs-on: ubuntu-latest
     
@@ -70,7 +70,7 @@ jobs:
 
   remove-submission:
     if: |
-      contains(github.event.issue.labels.*.name, 'submission') &&
+      (contains(github.event.issue.labels.*.name, 'submission') || startsWith(github.event.issue.title, '[Submission]')) &&
       github.event.action == 'closed'
     runs-on: ubuntu-latest
     
@@ -102,7 +102,7 @@ jobs:
   verify-submission:
     if: |
       github.event_name == 'issue_comment' &&
-      contains(github.event.issue.labels.*.name, 'submission') &&
+      (contains(github.event.issue.labels.*.name, 'submission') || startsWith(github.event.issue.title, '[Submission]')) &&
       contains(github.event.comment.body, '/verify')
     runs-on: ubuntu-latest
     
