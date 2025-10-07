@@ -1,6 +1,18 @@
 {
   "submissions": [
     {
+      "issue_number": 3,
+      "student_name": "Th\u00e0nh",
+      "model_length": "256",
+      "accuracy": "64.3%",
+      "tensorboard_link": "",
+      "improvement_description": "I change the evaluation script",
+      "gpu_hours": "2H100",
+      "issue_url": "https://github.com/Luvata/test2/issues/3",
+      "submitted_at": "2025-10-07T05:07:13.099498",
+      "verified": false
+    },
+    {
       "issue_number": 2,
       "student_name": "Haha",
       "model_length": "512",
