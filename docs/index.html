@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 2 - Leaderboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .submit-link {
+            text-align: center;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .verified {
+            background-color: #e8f5e9;
+        }
+        .badge {
+            background-color: #2196F3;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Assignment 2 - Model Leaderboard</h1>
+    
+    <div class="submit-link">
+        <a href="#" id="submitLink">Submit Your Results</a>
+    </div>
+
+    <div id="loading" class="loading">Loading...</div>
+    
+    <table id="leaderboardTable" style="display: none;">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Student</th>
+                <th>Length</th>
+                <th>Accuracy</th>
+                <th>TensorBoard</th>
+                <th>Description</th>
+                <th>GPU Hours</th>
+                <th>Issue</th>
+            </tr>
+        </thead>
+        <tbody id="leaderboardBody">
+        </tbody>
+    </table>
+
+    <div id="noData" style="display: none; text-align: center; padding: 40px;">
+        <p>No submissions yet. Be the first!</p>
+    </div>
+
+    <script>
+        async function loadLeaderboard() {
+            try {
+                const response = await fetch('leaderboard.json');
+                const data = await response.json();
+                const submissions = data.submissions || [];
+                
+                document.getElementById('loading').style.display = 'none';
+                
+                if (submissions.length === 0) {
+                    document.getElementById('noData').style.display = 'block';
+                } else {
+                    document.getElementById('leaderboardTable').style.display = 'table';
+                    const tbody = document.getElementById('leaderboardBody');
+                    
+                    submissions.forEach((sub, index) => {
+                        const row = document.createElement('tr');
+                        if (sub.verified) row.className = 'verified';
+                        
+                        row.innerHTML = `
+                            <td>${index + 1}</td>
+                            <td>${sub.student_name}${sub.verified ? ' <span class="badge">✓</span>' : ''}</td>
+                            <td>${sub.model_length}</td>
+                            <td>${sub.accuracy}</td>
+                            <td>${sub.tensorboard_link ? `<a href="${sub.tensorboard_link}" target="_blank">View</a>` : '-'}</td>
+                            <td>${sub.improvement_description || '-'}</td>
+                            <td>${sub.gpu_hours}</td>
+                            <td><a href="${sub.issue_url}" target="_blank">#${sub.issue_number}</a></td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+
+                // Update submit link
+                const pathParts = window.location.pathname.split('/').filter(p => p);
+                if (pathParts.length > 0) {
+                    const owner = window.location.hostname.split('.')[0];
+                    const repo = pathParts[0];
+                    document.getElementById('submitLink').href = 
+                        `https://github.com/${owner}/${repo}/issues/new?template=submission.yml`;
+                }
+            } catch (error) {
+                document.getElementById('loading').innerHTML = 'Error loading leaderboard.';
+            }
+        }
+
+        loadLeaderboard();
+    </script>
+</body>
+</html>
