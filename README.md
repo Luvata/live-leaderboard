@@ -4,7 +4,9 @@ Submit and track model performance via GitHub Issues. Results display automatica
 
 ## Quick Start
 
-**Students:** [Submit your results](../../issues/new?template=submission.yml) via GitHub Issues  
+**Students:** [Submit your results](../../issues/new?template=submission.yml) via GitHub Issues.
+**Note**: Each student can submit multiple times to the leaderboard. But do not edit your submission as it will render only once, you can close it and open a new one.
+
 **Admins:** Comment `/verify` on an issue to verify it, or close the issue to remove it
 
 ## Setup
