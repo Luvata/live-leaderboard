@@ -12,7 +12,7 @@ Submit and track model performance via GitHub Issues. Results display automatica
 1. **Enable GitHub Pages:** Settings → Pages → Source: `main` branch, `/docs` folder
 2. **Set Permissions:** Settings → Actions → General → Workflow permissions: "Read and write permissions"
 
-Leaderboard will be at: https://luvata.github.io/test2/
+Leaderboard will be at: https://luvata.github.io/live-leaderboard/
 
 ## How It Works
 
